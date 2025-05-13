@@ -1,0 +1,62 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "platformer-level-1.json": {
+            "scale": 0.8246527777777778,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 360.1515789473685,
+                "y": 180.07578947368424
+            }
+        },
+        "platformer-level-1.json#kenney_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "platformer-level-1.tmj": {
+            "scale": 0.8246527777777778,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 360.1515789473685,
+                "y": 180.07578947368424
+            }
+        },
+        "platformer-level-1.tmj#kenney_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "tilemap.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 429,
+                "y": 309.5
+            }
+        },
+        "tilemap.tmx#kenney_tilemap_packed": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/buaqu/OneDrive/Documents/GitHub/CMPM 120 - UCSC/StarterPlatformer/assets",
+    "last.imagePath": "C:/Users/buaqu/OneDrive/Documents/GitHub/CMPM 120 - UCSC/StarterPlatformer/assets",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 40,
+    "openFiles": [
+    ],
+    "project": "Starter Platformer.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 18
+    }
+}
