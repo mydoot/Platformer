@@ -5,10 +5,12 @@ class Platformer extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 800;
-        this.DRAG = 1000;    // DRAG < ACCELERATION = icy slide
+        this.ACCELERATION = 500;
+        this.DRAG = 1100;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
         this.JUMP_VELOCITY = -900;
+
+        this.CAM = this.cameras.main
     }
 
     create() {
@@ -34,9 +36,16 @@ class Platformer extends Phaser.Scene {
             collides: true
         });
 
+        my.AKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        my.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        my.SPACEKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
-        my.sprite.player.setCollideWorldBounds(true);
+        //my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
+        my.sprite.player = new Player(this, game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png", my.AKey, my.DKey, my.SPACEKey, null, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY).setScale(2);
+        this.Player = this.physics.add.existing(my.sprite.player, 0);
+        this.Player.setCollideWorldBounds(true);
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
@@ -44,10 +53,7 @@ class Platformer extends Phaser.Scene {
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
-        my.AKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        my.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        my.SPACEKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
+        
         // debug key listener (assigned to D key)
         this.input.keyboard.on('keydown-D', () => {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
@@ -57,33 +63,9 @@ class Platformer extends Phaser.Scene {
     }
 
     update() {
-        if(my.AKey.isDown) {
-            my.sprite.player.body.setAccelerationX(-this.ACCELERATION);
-            
-            my.sprite.player.resetFlip();
-            my.sprite.player.anims.play('walk', true);
-
-        } else if(my.DKey.isDown) {
-             my.sprite.player.body.setAccelerationX(this.ACCELERATION);
-
-            my.sprite.player.setFlip(true, false);
-            my.sprite.player.anims.play('walk', true);
-
-        } else {
-             my.sprite.player.body.setAccelerationX(0);
-        my.sprite.player.body.setDragX(this.DRAG);
-
-            my.sprite.player.anims.play('idle');
-        }
-
-        // player jump
-        // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-        if(!my.sprite.player.body.blocked.down) {
-            my.sprite.player.anims.play('jump');
-        }
-        if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(my.SPACEKey)) {
-              my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
-
-        }
+        this.CAM.startFollow(this.Player, true, 0.7, 0.1);
+    this.CAM.setZoom(1.25);
+        this.Player.update();
+       
     }
 }
