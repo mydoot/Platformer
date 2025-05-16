@@ -34,6 +34,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.resetFlip();
             this.anims.play('walk', true);
 
+           /*  this.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
+            this.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
+
+            // Only play smoke effect if touching the ground
+
+            if (this.body.blocked.down) {
+
+                this.walking.start();
+
+            } */
+
         } else if(this.right.isDown) {
             if (this.body.velocity.x <= -50){
                 this.setVelocityX(50);
