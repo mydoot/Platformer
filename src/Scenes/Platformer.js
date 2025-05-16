@@ -85,10 +85,10 @@ class Platformer extends Phaser.Scene {
 
 
         //camera
-        //this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(this.Player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
-        this.cameras.main.setDeadzone(400, 400);
-        this.cameras.main.setZoom(2.25);
+        this.cameras.main.setDeadzone(200, 70);
+        this.cameras.main.setZoom(2);
 
         //walking vfx
         
