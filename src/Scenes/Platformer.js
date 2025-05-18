@@ -8,12 +8,20 @@ class Platformer extends Phaser.Scene {
         this.ACCELERATION = 500;
         this.DRAG = 1100;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -700;
+        this.JUMP_VELOCITY = -625;
 
         this.CAM = this.cameras.main
+
+        this.vfx = {};
     }
 
     create() {
+
+        this.playerParticleConfig = {
+            jsonkey: 'kenny-particles',
+            spritekey: ['circle_05.png']
+        };
+
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
         this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
@@ -60,7 +68,7 @@ class Platformer extends Phaser.Scene {
 
         // set up player avatar
         //my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
-        my.sprite.player = new Player(this, game.config.width/4, game.config.height/2 - 200, "platformer_characters", "tile_0000.png", my.AKey, my.DKey, my.SPACEKey, null, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY).setScale(1);
+        my.sprite.player = new Player(this, game.config.width/4 - 340, game.config.height/2 - 200, "platformer_characters", "tile_0000.png", my.AKey, my.DKey, my.SPACEKey, null, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY, this.playerParticleConfig).setScale(1);
         this.Player = this.physics.add.existing(my.sprite.player, 0);
         this.Player.setCollideWorldBounds(true);
 
@@ -90,19 +98,8 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.setDeadzone(200, 70);
         this.cameras.main.setZoom(2);
 
-        //walking vfx
         
-       /*  my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
-            frame: ['smoke_03.png', 'smoke_09.png'],
-            // TODO: Try: add random: true
-            scale: {start: 0.03, end: 0.1},
-            // TODO: Try: maxAliveParticles: 8,
-            lifespan: 350,
-            // TODO: Try: gravityY: -400,
-            alpha: {start: 1, end: 0.1}, 
-        });
-
-        my.vfx.walking.stop(); */
+        
 
     }
 

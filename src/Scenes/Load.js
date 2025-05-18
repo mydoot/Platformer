@@ -19,6 +19,7 @@ class Load extends Phaser.Scene {
         });
         
         this.load.multiatlas("kenny-particles", "kenny-particles.json");
+        
     }
 
     create() {
