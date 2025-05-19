@@ -86,7 +86,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.body.blocked.down) {
 
                 this.vfx.walk.start();
-
             }
             else {
                 this.vfx.walk.stop();
