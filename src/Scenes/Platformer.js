@@ -30,9 +30,10 @@ class Platformer extends Phaser.Scene {
         // First parameter: name we gave the tileset in Tiled
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
         this.tileset = this.map.addTilesetImage("tilemap_packed", "tilemap_tiles");
+        this.tileset2 = this.map.addTilesetImage("stonetilemap", "stone_tiles");
 
         // Create a layer
-        this.groundLayer = this.map.createLayer("Ground", this.tileset, 0, 0);
+        this.groundLayer = this.map.createLayer("Ground", [this.tileset, this.tileset2], 0, 0);
         this.foreLayer = this.map.createLayer("Foreground", this.tileset, 0, 0);
         this.Backlayer = this.map.createLayer("Background", this.tileset, 0, 0);
         /* this.groundLayer.setScale(2.0);
@@ -51,7 +52,7 @@ class Platformer extends Phaser.Scene {
         this.keys = this.map.createFromObjects("Objects", {
             name: "key",
             key: "tilemap_sheet",
-            frame: 151
+            frame: 27
         });
 
         // Since createFromObjects returns an array of regular Sprites, we need to convert 
@@ -78,8 +79,30 @@ class Platformer extends Phaser.Scene {
 // Handle collision detection with coins
         this.physics.add.overlap(my.sprite.player, this.keyGroup, (obj1, obj2) => {
             obj2.destroy(); // remove coin on overlap
-        });
 
+            this.CoinParticle = this.add.particles(0, 0, 'kenny-particles', {
+            frame: 'star_04.png',
+            scale: { start: 0.30, end: 0 },
+            tint: [0xffff00, 0xffd700, 0xffec8b],
+            blendMode: 'NORMAL',
+            x: my.sprite.player.x,
+            y: my.sprite.player.y,
+            //moveTo: true,
+            speedX: {min: -200, max: 200 },
+            speedY: -50,
+            angle: {min: 0, max: 180},
+            gravityY: 200,
+            rotate: {min: 30, max: 360},
+            lifespan: {min: 100, max: 1000},
+            //duration: 5,
+            maxParticles: 5,
+            quantity: 5
+
+                
+            });
+
+            this.CoinParticle.start();
+    });
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -96,7 +119,7 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(this.Player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
         this.cameras.main.setDeadzone(200, 70);
-        this.cameras.main.setZoom(2);
+        this.cameras.main.setZoom(2.5);
 
         
         
