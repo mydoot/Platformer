@@ -5,12 +5,14 @@ class Platformer extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 500;
+        this.ACCELERATION = 400;
         this.DRAG = 1100;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
         this.JUMP_VELOCITY = -625;
 
         this.CAM = this.cameras.main
+
+        this.myScore = 0;
 
         this.vfx = {};
     }
@@ -24,7 +26,7 @@ class Platformer extends Phaser.Scene {
 
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
-        this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
+        this.map = this.add.tilemap("platformer-level-1", 18, 18, 160, 70);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -55,13 +57,21 @@ class Platformer extends Phaser.Scene {
             frame: 27
         });
 
+        this.flag = this.map.createFromObjects("Flag Layer", {
+            name: "flag2",
+            key: "tilemap_sheet",
+            frame: 111
+        });
+
         // Since createFromObjects returns an array of regular Sprites, we need to convert 
         // them into Arcade Physics sprites (STATIC_BODY, so they don't move) 
         this.physics.world.enable(this.keys, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.flag, Phaser.Physics.Arcade.STATIC_BODY);
 
         // Create a Phaser group out of the array this.coins
         // This will be used for collision detection below.
         this.keyGroup = this.add.group(this.keys);
+        this.flagGroup = this.add.group(this.flag);
 
        /*  for (this.Keyz in this.keyGroup){
             this.Keyz.setScale(2);
@@ -79,6 +89,10 @@ class Platformer extends Phaser.Scene {
 // Handle collision detection with coins
         this.physics.add.overlap(my.sprite.player, this.keyGroup, (obj1, obj2) => {
             obj2.destroy(); // remove coin on overlap
+
+            
+            this.myScore += 1;
+            my.text.score.setText("Keys: " + this.myScore);
 
             this.CoinParticle = this.add.particles(0, 0, 'kenny-particles', {
             frame: 'star_04.png',
@@ -104,6 +118,38 @@ class Platformer extends Phaser.Scene {
             this.CoinParticle.start();
     });
 
+    this.physics.add.overlap(my.sprite.player, this.flagGroup, (obj1, obj2) => {
+            //obj2.destroy(); // remove coin on overlap
+        if (this.myScore >= 9){
+
+            my.text.LevelClear.visible = true;
+            my.sprite.visible = true;
+
+            this.FlagParticle = this.add.particles(0, 0, 'kenny-particles', {
+            frame: 'star_05.png',
+            scale: { start: 0.30, end: 0 },
+            tint: [0xffff00, 0xffd700, 0xffec8b],
+            blendMode: 'NORMAL',
+            x: my.sprite.player.x,
+            y: my.sprite.player.y,
+            //moveTo: true,
+            speedX: {min: -200, max: 200 },
+            speedY: -50,
+            angle: {min: 0, max: 180},
+            gravityY: 200,
+            rotate: {min: 30, max: 360},
+            lifespan: {min: 100, max: 1000},
+            //duration: 5,
+            maxParticles: 5,
+            quantity: 5
+
+                
+            });
+
+            this.FlagParticle.start();
+        }
+    });
+
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -121,9 +167,15 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.setDeadzone(200, 70);
         this.cameras.main.setZoom(2.5);
 
+        this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         
-        
+my.text.score = this.add.bitmapText(50, 450, "rocketSquare", "Keys: " + this.myScore);
+my.text.notes = this.add.bitmapText(4, 430, "rocketSquare", "Get 9 Keys and reach the flag");
+my.text.notes.setScale(0.55);
 
+my.text.LevelClear = this.add.bitmapText(2600, 500, "rocketSquare", "Level Cleared");
+my.text.LevelClear.setScale(0.80);
+my.text.LevelClear.visible = false;
     }
 
     update() {
@@ -132,4 +184,6 @@ class Platformer extends Phaser.Scene {
         this.Player.update();
        
     }
+
+
 }
