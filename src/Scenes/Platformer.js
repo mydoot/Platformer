@@ -90,7 +90,9 @@ class Platformer extends Phaser.Scene {
         this.physics.add.overlap(my.sprite.player, this.keyGroup, (obj1, obj2) => {
             obj2.destroy(); // remove coin on overlap
 
-            
+            this.sound.play("ping", {
+                            volume: 0.35   // Can adjust volume using this, goes from 0 to 1
+                        });
             this.myScore += 1;
             my.text.score.setText("Keys: " + this.myScore);
 

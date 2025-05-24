@@ -16,6 +16,8 @@ class Load extends Phaser.Scene {
    
         this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
 
+        this.load.audio("ping", "13_Ice_explosion_01.wav");
+
         this.load.spritesheet("tilemap_sheet", "tilemap_packed.png", {
             frameWidth: 18,
             frameHeight: 18
